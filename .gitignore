@@ -38,3 +38,6 @@ yarn-error.log*
 *.pem
 
 .vscode
+
+// note to remember code in local
+note.md
