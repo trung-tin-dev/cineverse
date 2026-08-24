@@ -11,9 +11,12 @@ const PORT = Number(process.env.PORT) || 4000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // port nextjs frontend
+    origin: "http://localhost:3000", // port nextjs frontend 
   }),
 );
+
+// Health check route
+app.use("/api/health", healthRoute);
 
 // 404 route not found handler
 app.use((_req, res) => {
@@ -24,9 +27,6 @@ app.use((_req, res) => {
 
 // Error handling middleware
 app.use(errorMiddleware);
-
-// Health check route
-app.use("/api/health", healthRoute);
 
 // Start the server
 app.listen(PORT, () => {

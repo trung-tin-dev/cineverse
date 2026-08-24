@@ -1,0 +1,39 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: cineverse-web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: cineverse-api
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://cineverse:cineverse@postgres:5432/cineverse
+      DIRECT_URL: postgresql://cineverse:cineverse@postgres:5432/cineverse
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: cineverse-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cineverse
+      POSTGRES_PASSWORD: cineverse
+      POSTGRES_DB: cineverse
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
