@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 
 import healthRoute from "./routes/health.route";
+import customerRoute from "./routes/customer.route";
+import staffRoute from "./routes/staff.route";
+import adminRoute from "./routes/admin.route";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { authHandler } from "./routes/auth.route";
 
@@ -19,6 +22,11 @@ app.use(
 
 // Better Auth
 app.all("/api/auth/*", authHandler);
+
+// Application Protected Routes (RBAC)
+app.use("/api/customer", customerRoute);
+app.use("/api/staff", staffRoute);
+app.use("/api/admin", adminRoute);
 
 // Health check route
 app.use("/api/health", healthRoute);

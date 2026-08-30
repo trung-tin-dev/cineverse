@@ -95,8 +95,21 @@ export default function ProfilePage() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-800 border-2 border-slate-700 text-2xl font-bold">
                 {session.user.name?.charAt(0).toUpperCase() ?? "U"}
               </div>
-              <div>
-                <h1 className="text-xl font-bold">{session.user.name}</h1>
+              <div className="flex-1">
+                <div className="flex items-center space-x-2">
+                  <h1 className="text-xl font-bold">{session.user.name}</h1>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                      (session.user as any).role === "ADMIN"
+                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                        : (session.user as any).role === "STAFF"
+                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                          : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                    }`}
+                  >
+                    {(session.user as any).role || "CUSTOMER"}
+                  </span>
+                </div>
                 <p className="text-sm text-slate-400">{session.user.email}</p>
               </div>
             </div>
@@ -123,8 +136,10 @@ export default function ProfilePage() {
             <div className="flex items-center py-3">
               <Shield className="h-5 w-5 text-slate-400 mr-3" />
               <div className="flex-1">
-                <p className="text-xs font-medium text-slate-500">User ID</p>
-                <p className="font-mono text-xs text-slate-700">{session.user.id}</p>
+                <p className="text-xs font-medium text-slate-500">Vai trò tài khoản (Role)</p>
+                <p className="text-sm font-bold text-slate-900">
+                  {(session.user as any).role || "CUSTOMER"}
+                </p>
               </div>
             </div>
 

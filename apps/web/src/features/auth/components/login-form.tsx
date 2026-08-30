@@ -28,6 +28,7 @@ export default function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
   });
 
@@ -37,6 +38,7 @@ export default function LoginForm() {
     const { error } = await authClient.signIn.email({
       email: data.email,
       password: data.password,
+      rememberMe: data.rememberMe,
     });
 
     if (error) {
@@ -46,7 +48,12 @@ export default function LoginForm() {
       return;
     }
 
-    router.push("/profile");
+    const callbackUrl =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("callbackUrl") || "/profile"
+        : "/profile";
+
+    router.push(callbackUrl);
     router.refresh();
   };
 
@@ -117,6 +124,13 @@ export default function LoginForm() {
             >
               Mật khẩu
             </label>
+
+            <Link
+              href="/forgot-password"
+              className="text-xs font-medium text-slate-500 hover:text-slate-900 hover:underline"
+            >
+              Quên mật khẩu?
+            </Link>
           </div>
 
           <div className="relative">
@@ -153,6 +167,22 @@ export default function LoginForm() {
               {errors.password.message}
             </p>
           )}
+        </div>
+
+        {/* Remember Me */}
+        <div className="flex items-center space-x-2 pt-1">
+          <input
+            id="rememberMe"
+            type="checkbox"
+            {...register("rememberMe")}
+            className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900 cursor-pointer accent-slate-900"
+          />
+          <label
+            htmlFor="rememberMe"
+            className="text-xs sm:text-sm font-medium text-slate-600 cursor-pointer select-none"
+          >
+            Ghi nhớ đăng nhập
+          </label>
         </div>
 
         {/* Submit */}
