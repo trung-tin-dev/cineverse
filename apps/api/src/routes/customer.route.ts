@@ -7,7 +7,6 @@ const router = Router();
 router.get(
   "/profile",
   requireAuth,
-  requireRole("CUSTOMER", "STAFF", "ADMIN"),
   (req, res) => {
     res.json({
       status: "success",

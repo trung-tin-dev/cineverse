@@ -57,7 +57,13 @@ export const requireRole = (...allowedRoles: Role[]) => {
       });
     }
 
-    const userRole = (req.user.role as Role) || "CUSTOMER";
+    const userRole = req.user.role as Role | undefined;
+
+    if (!userRole) {
+      return res.status(403).json({
+        message: "Forbidden: User chưa được gán role",
+      });
+    }
 
     if (!allowedRoles.includes(userRole)) {
       return res.status(403).json({
