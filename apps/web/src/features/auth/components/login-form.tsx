@@ -5,15 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, LogIn } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
 import {
   loginSchema,
   type LoginInput,
 } from "../schemas/auth-schema";
-
-import { AuthFormWrapper } from "./auth-form-wrapper";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -53,13 +51,25 @@ export default function LoginForm() {
   };
 
   return (
-    <AuthFormWrapper
-      title="Đăng nhập CineVerse"
-      description="Chào mừng bạn quay trở lại!"
-    >
+    <div className="w-full">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 text-white shadow-md shadow-slate-900/20">
+          <LogIn className="h-5 w-5" />
+        </div>
+
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          Đăng nhập CineVerse
+        </h1>
+
+        <p className="mt-1.5 text-sm text-slate-500">
+          Chào mừng bạn quay trở lại với CineVerse!
+        </p>
+      </div>
+
       {/* Server Error */}
       {serverError && (
-        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
           {serverError}
         </div>
       )}
@@ -100,12 +110,14 @@ export default function LoginForm() {
 
         {/* Password */}
         <div className="space-y-1.5">
-          <label
-            htmlFor="password"
-            className="text-sm font-medium text-slate-700"
-          >
-            Mật khẩu
-          </label>
+          <div className="flex items-center justify-between">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-700"
+            >
+              Mật khẩu
+            </label>
+          </div>
 
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -147,7 +159,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex w-full items-center justify-center rounded-lg bg-slate-900 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex w-full items-center justify-center rounded-lg bg-slate-900 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm"
         >
           {isSubmitting ? (
             <>
@@ -170,6 +182,6 @@ export default function LoginForm() {
           Đăng ký ngay
         </Link>
       </p>
-    </AuthFormWrapper>
+    </div>
   );
 }
