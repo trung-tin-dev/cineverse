@@ -7,6 +7,8 @@ import { prisma } from "./prisma";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
+
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -22,9 +24,23 @@ export const auth = betterAuth({
     },
   },
 
+  account: {
+  accountLinking: {
+    enabled: true,
+    trustedProviders: ["google"],
+  },
+},
+
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+  },
+
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
   },
 
   emailVerification: {

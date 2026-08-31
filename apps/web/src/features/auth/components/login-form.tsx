@@ -18,6 +18,7 @@ export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const {
     register,
@@ -57,6 +58,37 @@ export default function LoginForm() {
     router.refresh();
   };
 
+  const handleGoogleLogin = async () => {
+  setServerError(null);
+  setIsGoogleLoading(true);
+
+  const callbackPath =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("callbackUrl") ||
+        "/profile"
+      : "/profile";
+
+  const callbackURL =
+    typeof window !== "undefined"
+      ? `${window.location.origin}${callbackPath}`
+      : "http://localhost:3000/profile";
+
+  try {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL,
+    });
+  } catch (error) {
+    console.error("Google login error:", error);
+
+    setServerError(
+      "Đăng nhập với Google thất bại. Vui lòng thử lại.",
+    );
+
+    setIsGoogleLoading(false);
+  }
+};
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -80,6 +112,37 @@ export default function LoginForm() {
           {serverError}
         </div>
       )}
+
+      {/* Google Login */}
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        disabled={isGoogleLoading || isSubmitting}
+        className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isGoogleLoading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Đang kết nối Google...
+          </>
+        ) : (
+          <>
+            <span className="text-base font-bold">G</span>
+            Đăng nhập với Google
+          </>
+        )}
+      </button>
+
+      {/* Divider */}
+      <div className="my-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-slate-200" />
+
+        <span className="text-xs font-medium text-slate-400">
+          HOẶC
+        </span>
+
+        <div className="h-px flex-1 bg-slate-200" />
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Email */}
