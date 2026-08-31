@@ -12,10 +12,12 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "better-auth": "^1.7.1",
     "cors": "^2.8.6",
-    "dotnet": "^1.1.4",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "pg": "^8.23.0"
+    "pg": "^8.23.0",
+    "resend": "^6.25.0"
   },
   "keywords": [],
   "type": "commonjs",
