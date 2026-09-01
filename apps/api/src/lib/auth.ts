@@ -6,8 +6,18 @@ import { prisma } from "./prisma.js";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
+
+  advanced: {
+    useSecureCookies: isProduction,
+    defaultCookieAttributes: {
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
+    },
+  },
 
   database: prismaAdapter(prisma, {
     provider: "postgresql",
