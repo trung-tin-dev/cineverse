@@ -15,7 +15,7 @@ const PORT = Number(process.env.PORT) || 4000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // port nextjs frontend 
+    origin: ["http://localhost:3000", "https://cineverse-web-chi.vercel.app"], // port nextjs frontend
     credentials: true,
   }),
 );
