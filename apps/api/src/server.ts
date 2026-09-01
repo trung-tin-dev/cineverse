@@ -2,12 +2,12 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 
-import healthRoute from "./routes/health.route";
-import customerRoute from "./routes/customer.route";
-import staffRoute from "./routes/staff.route";
-import adminRoute from "./routes/admin.route";
-import { errorMiddleware } from "./middlewares/error.middleware";
-import { authHandler } from "./routes/auth.route";
+import healthRoute from "./routes/health.route.js";
+import customerRoute from "./routes/customer.route.js";
+import staffRoute from "./routes/staff.route.js";
+import adminRoute from "./routes/admin.route.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { authHandler } from "./routes/auth.route.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;

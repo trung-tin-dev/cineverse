@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { emailOTP } from "better-auth/plugins";
 import { Resend } from "resend";
-import { prisma } from "./prisma";
+import { prisma } from "./prisma.js";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
